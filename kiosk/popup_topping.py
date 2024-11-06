@@ -7,7 +7,6 @@ from PyQt5.QtGui import *
 from PyQt5 import uic
 
 form_topping_page = uic.loadUiType('kiosk/UI/popup_topping.ui')[0]
-form_single_topping = uic.loadUiType('kiosk/UI/widget_single_topping.ui')[0]
 
 class Popup_Topping(QDialog, form_topping_page):
     def __init__(self, menu_name, conn):
@@ -26,6 +25,7 @@ class Popup_Topping(QDialog, form_topping_page):
         self.topping_frames = [self.frame_topping_1, self.frame_topping_2, self.frame_topping_3]
         self.funcs = [self.select_topping_1, self.select_topping_2, self.select_topping_3]
         
+        self.btn_cancel.clicked.connect(self.cancel_order)
 
         self.load_menu_information()
         self.load_topping_information()
@@ -92,6 +92,14 @@ class Popup_Topping(QDialog, form_topping_page):
     def reset_frame_style(self):
         for frame in self.topping_frames:
             frame.setStyleSheet('')
+
+    def cancel_order(self):
+        self.picked_topping = 0
+        self.send_order_information()
+        self.close()
+
+    def send_order_information(self):
+        pass
 
 if __name__ == '__main__':
     conn = pymysql.connect(
