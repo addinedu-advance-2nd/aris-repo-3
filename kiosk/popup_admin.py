@@ -21,8 +21,8 @@ STYLE_DEACTIVE = '''
 conn = pymysql.connect(
     host='localhost', 
     port=3306, 
-    user='pieces98', 
-    passwd='1234',
+    user='root', 
+    passwd='12345678',
     db='BARTENDROID'
 )
 
