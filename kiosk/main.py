@@ -51,10 +51,8 @@ class MyKiosk(QMainWindow, kiosk_class):
         
         self.logo_click_count = 0    
 
-        self.ad = self.findChild(QLabel, "ad")
-        pixmap = QPixmap("img/img.jpg")  
-        self.ad.setPixmap(pixmap)
-        self.ad.setScaledContents(True)  # QLabel 크기에 맞게 이미지 조정
+        # 화면보호기 이미지 설정
+        self.set_ad_img()
         
         # 초기화면 클릭 시 이벤트 연결
         self.page_initial.mousePressEvent = self.go_to_main
@@ -82,11 +80,39 @@ class MyKiosk(QMainWindow, kiosk_class):
 
     connection.commit()
     connection.close()
+    
+    # 화면보호기 이미지 설정
+    def set_ad_img(self):
+        self.ad_img_num = 1 
+
+        self.ad = self.findChild(QLabel, "ad")
+        pixmap = QPixmap(f"img/ad{self.ad_img_num}.png")  
+        self.ad.setPixmap(pixmap)
+        self.ad.setScaledContents(True)
+
+        self.ad_timer = QTimer(self)
+        
+        self.ad_timer.timeout.connect(self.change_ad_img)
+        self.ad_timer.start(3000)
+
+    # 3초마다 화면보호기 이미지 변경
+    def change_ad_img(self):
+        print(self.ad_img_num)
+        self.ad_img_num += 1
+        if self.ad_img_num > 2:
+            self.ad_img_num = 1
+        
+        pixmap = QPixmap(f"img/ad{self.ad_img_num}.png")  
+        self.ad.setPixmap(pixmap)
+        self.ad.setScaledContents(True)
 
     # 메인화면으로 전환
     def go_to_main(self, event):
         print("Initial page clicked") 
         self.stackedWidget.setCurrentWidget(self.page_main)
+
+        # 화면보호기 타이머 중지
+        self.ad_timer.stop()
 
     # 로고라벨 클릭체크, 관리자창으로 전환
     def go_to_admin(self, event):
