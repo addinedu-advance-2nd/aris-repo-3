@@ -14,6 +14,7 @@ from PyQt5.QtGui import QPixmap
 import pymysql
 
 from popup_admin import Popup_Admin
+from popup_topping import Popup_Topping
 
 ''' 
 Button, Widget, Label, Frame, dialog, Stacked Widget
@@ -98,7 +99,8 @@ class MyKiosk(QMainWindow, kiosk_class):
     
     # 토핑창으로 전환
     def go_to_topping(self, event):
-        self.topping_window = ToppingWindow()
+        # TODO : 메뉴이름을 전달받는 과정이 추가되어야 함.
+        self.topping_window = Popup_Topping('초콜릿', connection)
         self.topping_window.show()
 
     # 경고팝업으로 전환
@@ -122,10 +124,7 @@ class MyKiosk(QMainWindow, kiosk_class):
        
 
 # 팝업 - 토핑선택
-class ToppingWindow(QMainWindow, topping_class):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)  
+
 
  # 팝업 - 주문경고
 class Warining(QMainWindow, warning_class):   
