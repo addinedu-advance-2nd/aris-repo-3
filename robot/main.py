@@ -1,4 +1,3 @@
-
 import sys
 import time
 import traceback
@@ -528,9 +527,11 @@ class RobotMain(object):
                         print("Position not recognized. Please check the robot's state.")
                         return  # 위치가 인식되지 않으면 종료'''
                     self.home_L()
+                    
                     #self.order_msg('B',2,'B')
                     self.motion_grab_capsule('B')
                     self.motion_place_capsule()
+
                     #self.home_R()
                     #self.motion_grab_cup()
                     #self.home_R_to_L()
@@ -562,4 +563,3 @@ if __name__ == '__main__':
     robot_main = RobotMain(arm)
     robot_main._robot_init()
     robot_main.run()
-
