@@ -21,10 +21,10 @@ STYLE_DEACTIVE = '''
     font: 63 12pt "Gulim";
 '''
 
-form_admin = uic.loadUiType('kiosk/UI/popup_admin.ui')[0]
+form_admin_page = uic.loadUiType('kiosk/UI/popup_admin.ui')[0]
 form_single_menu = uic.loadUiType('kiosk/UI/widget_single_menu.ui')[0]
 
-class Popup_Admin(QDialog, form_admin):
+class Popup_Admin(QDialog, form_admin_page):
     def __init__(self, conn):
         super().__init__()
         self.setupUi(self)
