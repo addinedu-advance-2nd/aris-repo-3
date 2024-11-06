@@ -225,4 +225,4 @@ if __name__ == '__main__':
     myWindow = Popup_Admin(conn)
     myWindow.show( )
     app.exec_( )
-    
+    conn.close()
