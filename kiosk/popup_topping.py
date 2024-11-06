@@ -26,6 +26,7 @@ class Popup_Topping(QDialog, form_topping_page):
         self.funcs = [self.select_topping_1, self.select_topping_2, self.select_topping_3]
         
         self.btn_cancel.clicked.connect(self.cancel_order)
+        self.btn_order.clicked.connect(self.send_order_information)
 
         self.load_menu_information()
         self.load_topping_information()
@@ -94,12 +95,15 @@ class Popup_Topping(QDialog, form_topping_page):
             frame.setStyleSheet('')
 
     def cancel_order(self):
-        self.picked_topping = 0
-        self.send_order_information()
+        self.order_info = None
         self.close()
 
     def send_order_information(self):
-        pass
+        if self.picked_topping:
+            self.order_info = {'menu': self.menu_name, 'topping':self.topping_labels[self.picked_topping-1].text()}
+        else:
+            self.order_info = None
+        self.close()
 
 if __name__ == '__main__':
     conn = pymysql.connect(

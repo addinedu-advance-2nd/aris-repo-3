@@ -99,9 +99,11 @@ class MyKiosk(QMainWindow, kiosk_class):
     
     # 토핑창으로 전환
     def go_to_topping(self, event):
-        # TODO : 메뉴이름을 전달받는 과정이 추가되어야 함.
+        # TODO : 메뉴이름을 전달받는 과정이 추가되어야
         self.topping_window = Popup_Topping('초콜릿', connection)
-        self.topping_window.show()
+        self.topping_window.exec()
+        order = self.topping_window.order_info
+        print('order: ', order)
 
     # 경고팝업으로 전환
     def go_to_warning(self, event):
