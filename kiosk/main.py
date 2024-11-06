@@ -13,6 +13,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap
 import pymysql
 
+from popup_admin import Popup_Admin
+from popup_topping import Popup_Topping
 
 ''' 
 Button, Widget, Label, Frame, dialog, Stacked Widget
@@ -76,10 +78,7 @@ class MyKiosk(QMainWindow, kiosk_class):
         #TODO 메뉴주문시 팝업-주문확인창
         #TODO 메뉴주문시 장바구니 표시(데이터베이스 활용)
 
-
-
     connection.commit()
-    connection.close()
     
     # 화면보호기 이미지 설정
     def set_ad_img(self):
@@ -120,15 +119,18 @@ class MyKiosk(QMainWindow, kiosk_class):
         print(f"로고클릭 {self.logo_click_count}번")
         
         if self.logo_click_count == 5:
-            self.admin_window = WindowAdmin()
+            self.admin_window = Popup_Admin(connection)
             self.admin_window.show()
             print("Admin page clicked") 
             self.logo_click_count = 0        
     
     # 토핑창으로 전환
     def go_to_topping(self, event):
-        self.topping_window = ToppingWindow()
-        self.topping_window.show()
+        # TODO : 메뉴이름을 전달받는 과정이 추가되어야
+        self.topping_window = Popup_Topping('초콜릿', connection)
+        self.topping_window.exec()
+        order = self.topping_window.order_info
+        print('order: ', order)
 
     # 경고팝업으로 전환
     def go_to_warning(self, event):
@@ -150,17 +152,8 @@ class MyKiosk(QMainWindow, kiosk_class):
         
        
 
-# 팝업 - 관리자 로그인
-class WindowAdmin(QMainWindow, admin_class):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-
 # 팝업 - 토핑선택
-class ToppingWindow(QMainWindow, topping_class):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)  
+
 
  # 팝업 - 주문경고
 class Warining(QMainWindow, warning_class):   
