@@ -2,7 +2,6 @@ import os
 import sys
 import ast
 import datetime
-import pandas as pd
 from random import randint
 
 from PyQt5 import uic
@@ -13,8 +12,7 @@ from PyQt5.QtCore import *
 
 from PyQt5.QtGui import QPixmap
 import pymysql
-import pandas as pd
-import cart_widget
+
 
 ''' 
 Button, Widget, Label, Frame, dialog, Stacked Widget
@@ -25,34 +23,21 @@ Qialog (== QMainWindow) 같다고 생각하고 진행, 코드상에서 수정
 #! Qt디자이너 상에서 Widget배치가 원할하지 않을 수 있음
 
 # .ui 파일을 로드하여 MyKiosk 클래스 정의 준비
-kiosk_class = uic.loadUiType("kiosk.ui")[0]
-admin_class = uic.loadUiType("popup_login.ui")[0]
-topping_class = uic.loadUiType("popup_topping.ui")[0]
-warning_class = uic.loadUiType("popup_warning.ui")[0]
-confirm_class = uic.loadUiType("popup_confirm.ui")[0]
+kiosk_class = uic.loadUiType("kiosk/UI/kiosk.ui")[0]
+admin_class = uic.loadUiType("kiosk/UI/popup_login.ui")[0]
+topping_class = uic.loadUiType("kiosk/UI/popup_topping.ui")[0]
+warning_class = uic.loadUiType("kiosk/UI/popup_warning.ui")[0]
+confirm_class = uic.loadUiType("kiosk/UI/popup_confirm.ui")[0]
 
 
 #TODO 유정's help 
 # 1. DB연결
 connection = pymysql.connect(
     host='localhost',
-    user='jyh',
-    password='1',
-    database='BARTENDROID',
-    charset='utf8mb4'
+    user='root',
+    password='12345678',
+    database='BARTENDROID'
 )
-# 2. Pandas 데이터프레임으로 테이블 저장
-query_cus = "SELECT * FROM CUSTOMER"
-query_ice = "SELECT * FROM ICECREAM"
-query_menu = "SELECT * FROM MENU"
-query_req = "SELECT * FROM REQUEST"
-query_top = "SELECT * FROM TOPPING"
-
-
-
-# 3. 데이터 사용
-
-
 
 # 메인윈도우 - 초기화면 + 메인화면 + 메뉴테이블(9)
 class MyKiosk(QMainWindow, kiosk_class):
@@ -67,7 +52,7 @@ class MyKiosk(QMainWindow, kiosk_class):
         self.logo_click_count = 0    
 
         self.ad = self.findChild(QLabel, "ad")
-        pixmap = QPixmap("/home/jyh/pyqt_project/img.jpg")  
+        pixmap = QPixmap("img/img.jpg")  
         self.ad.setPixmap(pixmap)
         self.ad.setScaledContents(True)  # QLabel 크기에 맞게 이미지 조정
         
@@ -150,12 +135,6 @@ class ToppingWindow(QMainWindow, topping_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)  
-
-        #TODO dummy data
-        self.item_name = ""
-        self.selected_topping = ""
-        self.quantity = 
-        self.price = 
 
  # 팝업 - 주문경고
 class Warining(QMainWindow, warning_class):   
