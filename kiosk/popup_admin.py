@@ -26,8 +26,8 @@ conn = pymysql.connect(
     db='BARTENDROID'
 )
 
-form_admin = uic.loadUiType('./UI/popup_admin.ui')[0]
-form_single_menu = uic.loadUiType('./UI/widget_single_menu.ui')[0]
+form_admin = uic.loadUiType('kiosk/UI/popup_admin.ui')[0]
+form_single_menu = uic.loadUiType('kiosk/UI/widget_single_menu.ui')[0]
 
 class Popup_Admin(QDialog, form_admin):
     def __init__(self):
