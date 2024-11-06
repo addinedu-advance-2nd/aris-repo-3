@@ -25,9 +25,12 @@ form_admin = uic.loadUiType('kiosk/UI/popup_admin.ui')[0]
 form_single_menu = uic.loadUiType('kiosk/UI/widget_single_menu.ui')[0]
 
 class Popup_Admin(QDialog, form_admin):
-    def __init__(self):
+    def __init__(self, conn):
         super().__init__()
         self.setupUi(self)
+        # DB와의 연결을 위한 커넥터 저장
+        self.conn = conn
+
         # 시작화면 지정
         self.stack_main.setCurrentWidget(self.page_password)    # page_password
 
@@ -92,7 +95,7 @@ class Popup_Admin(QDialog, form_admin):
         target_category = self.sender().text()
 
         # 카테고리에 해당하는 데이터 추출
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor = self.conn.cursor(pymysql.cursors.DictCursor)
         query_expr = f'select NAME, STATUS from ICECREAM where CATEGORY = "{target_category}"'
         cursor.execute(query_expr)
         result = cursor.fetchall()
@@ -111,8 +114,7 @@ class Popup_Admin(QDialog, form_admin):
 
         # 추출된 데이터 위젯으로 만들어 출력
         for row in result:
-            widget = MenuWidget(self, row['NAME'], row['STATUS'])
-            print(row['NAME'], row['STATUS'])
+            widget = Menu_Widget(self, row['NAME'], row['STATUS'])
             widget.setMinimumHeight(100)
             layout.addWidget(widget)
         layout.addStretch(1)
@@ -123,7 +125,7 @@ class Popup_Admin(QDialog, form_admin):
         # 쿼리를 통해 토핑 테이블을 출력
         # * addStretch(1)으로 해결
 
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor = self.conn.cursor(pymysql.cursors.DictCursor)
         query_expr = f'select NAME, STATUS from TOPPING'
         cursor.execute(query_expr)
         result = cursor.fetchall()
@@ -142,13 +144,13 @@ class Popup_Admin(QDialog, form_admin):
 
         # 추출된 데이터 위젯으로 만들어 출력
         for row in result:
-            widget = MenuWidget(self, row['NAME'], row['STATUS'])
+            widget = Menu_Widget(self, row['NAME'], row['STATUS'])
             widget.setMinimumHeight(100)
             layout.addWidget(widget)
         layout.addStretch(1)
         cursor.close()
 
-class MenuWidget(QWidget, form_single_menu):
+class Menu_Widget(QWidget, form_single_menu):
     # 아이스크림/토핑 리스트를 출력할 때, 각 항목을 표현하는 위젯
 
     def __init__(self, parent, menu_name, is_not_soldout):
@@ -181,11 +183,11 @@ class MenuWidget(QWidget, form_single_menu):
         QMessageBox.information(self, 'State Information', '품절 상태로 전환합니다.')
         
         # 쿼리를 통해 해당 메뉴의 상태를 0(품절)로 전환 후 저장
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor = self.parent.conn.cursor(pymysql.cursors.DictCursor)
         query_expr = f'update ICECREAM set STATUS=0 where NAME="{self.label_menu_name.text()}";'
         cursor.execute(query_expr)
         cursor.close()
-        conn.commit()
+        self.parent.conn.commit()
 
         # 현재 상태 및 버튼 디자인 갱신
         self.is_soldout = not self.is_soldout
@@ -200,11 +202,11 @@ class MenuWidget(QWidget, form_single_menu):
         QMessageBox.information(self, 'State Information', '판매 상태로 전환합니다.')
 
         # 쿼리를 통해 해당 메뉴의 상태를 0(품절)로 전환 후 저장
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor = self.parent.conn.cursor(pymysql.cursors.DictCursor)
         query_expr = f'update ICECREAM set STATUS=1 where NAME="{self.label_menu_name.text()}";'
         cursor.execute(query_expr)
         cursor.close()
-        conn.commit()
+        self.parent.conn.commit()
 
         # 현재 상태 및 버튼 디자인 갱신
         self.is_soldout = not self.is_soldout
@@ -212,8 +214,15 @@ class MenuWidget(QWidget, form_single_menu):
         self.btn_not_soldout.setStyleSheet(STYLE_ACTIVE)
 
 if __name__ == '__main__':
+    conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='12345678',
+        database='BARTENDROID'
+    )
+
     app = QApplication(sys.argv)
-    myWindow = Popup_Admin()
+    myWindow = Popup_Admin(conn)
     myWindow.show( )
     app.exec_( )
-    conn.close()
+    
