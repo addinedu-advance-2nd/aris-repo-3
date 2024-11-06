@@ -114,7 +114,7 @@ class Popup_Admin(QDialog, form_admin):
 
         # 추출된 데이터 위젯으로 만들어 출력
         for row in result:
-            widget = Menu_Widget(self, row['NAME'], row['STATUS'])
+            widget = Menu_Widget(self, 'ICECREAM', row['NAME'], row['STATUS'])
             widget.setMinimumHeight(100)
             layout.addWidget(widget)
         layout.addStretch(1)
@@ -144,7 +144,7 @@ class Popup_Admin(QDialog, form_admin):
 
         # 추출된 데이터 위젯으로 만들어 출력
         for row in result:
-            widget = Menu_Widget(self, row['NAME'], row['STATUS'])
+            widget = Menu_Widget(self, 'TOPPING', row['NAME'], row['STATUS'])
             widget.setMinimumHeight(100)
             layout.addWidget(widget)
         layout.addStretch(1)
@@ -153,12 +153,13 @@ class Popup_Admin(QDialog, form_admin):
 class Menu_Widget(QWidget, form_single_menu):
     # 아이스크림/토핑 리스트를 출력할 때, 각 항목을 표현하는 위젯
 
-    def __init__(self, parent, menu_name, is_not_soldout):
+    def __init__(self, parent, type, menu_name, is_not_soldout):
         super().__init__()
         self.setupUi(self)
 
         self.parent = parent
-
+        # 종류 지정(DB테이블 명)
+        self.type = type
         # 메뉴 이름 출력
         self.label_menu_name.setText(menu_name)
 
@@ -184,7 +185,7 @@ class Menu_Widget(QWidget, form_single_menu):
         
         # 쿼리를 통해 해당 메뉴의 상태를 0(품절)로 전환 후 저장
         cursor = self.parent.conn.cursor(pymysql.cursors.DictCursor)
-        query_expr = f'update ICECREAM set STATUS=0 where NAME="{self.label_menu_name.text()}";'
+        query_expr = f'update {self.type} set STATUS=0 where NAME="{self.label_menu_name.text()}";'
         cursor.execute(query_expr)
         cursor.close()
         self.parent.conn.commit()
@@ -203,7 +204,7 @@ class Menu_Widget(QWidget, form_single_menu):
 
         # 쿼리를 통해 해당 메뉴의 상태를 0(품절)로 전환 후 저장
         cursor = self.parent.conn.cursor(pymysql.cursors.DictCursor)
-        query_expr = f'update ICECREAM set STATUS=1 where NAME="{self.label_menu_name.text()}";'
+        query_expr = f'update {self.type} set STATUS=1 where NAME="{self.label_menu_name.text()}";'
         cursor.execute(query_expr)
         cursor.close()
         self.parent.conn.commit()
