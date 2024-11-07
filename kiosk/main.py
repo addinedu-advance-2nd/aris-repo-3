@@ -48,10 +48,14 @@ class MyKiosk(QMainWindow, kiosk_class):
         super().__init__()
         self.setupUi(self)
         self.stackedWidget.setCurrentWidget(self.page_initial) 
-        self.logo_click_count = 0    
+        self.logo_click_count = 0  
+        self.total_cart_num = 0  
 
         # 화면보호기 이미지 설정
         self.set_ad_img()
+
+        # test
+        self.check_order()
         
         # 초기화면 클릭 시 이벤트 연결
         self.page_initial.mousePressEvent = self.go_to_main
@@ -257,12 +261,16 @@ class MyKiosk(QMainWindow, kiosk_class):
 
     #TODO
     def open_order(self, menu_name, price):
+        # 주문창 열기 전 주문량 확인
+        self.check_order()
+
         # Popup_Topping 창을 열어 주문 정보 가져오기
         topping_window = Popup_Topping(menu_name, price, self)
         topping_window.exec()
         print(order_info)
         order_info = topping_window.order_info  # Popup_Topping 창에서 받은 주문 정보
         self.update_cart_widget(order_info)
+
     def update_cart_widget(self, order_info):
         # CartWidget의 각 요소에 주문 정보 표시
         print(order_info)
@@ -270,21 +278,34 @@ class MyKiosk(QMainWindow, kiosk_class):
         self.cart_widget.cart_num.setText("1")  # 초기 수량은 1
         self.cart_widget.cart_top.setText(order_info['topping'])
         self.cart_widget.label_price.setText(f"{order_info['price']} 원")
+        self.total_cart_num += 1
 
     # 장바구니 - 제거버튼
     def remove_cart_item(self):
+        cur_cart_num = int(self.cart_widget.cart_num.text())
+        self.total_cart_num -= cur_cart_num
+
         self.cart_widget.setParent(None)
+
     # 장바구니 - -버튼
     def decrease_quantity(self):
         quantity = int(self.cart_widget.cart_num.text())
         if quantity > 1:
             self.cart_widget.cart_num.setText(str(quantity - 1))
+            self.total_cart_num -= 1
+
     # 장바구니 +버튼
     def increase_quantity(self):
         quantity = int(self.cart_widget.cart_num.text())
         self.cart_widget.cart_num.setText(str(quantity + 1))
-    
+        self.total_cart_num += 1
 
+    # 장바구니에 6개 이상 담길 경우 경고
+    def check_order(self):
+        print(self.total_cart_num)
+        if self.total_cart_num >= 6:
+            QMessageBox.warning(self, "Order Error", "아직 초보 바텐드로이드에게\n6개 이상의 주문은 무리에요😭")
+            return
 
 
 
