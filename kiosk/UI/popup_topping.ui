@@ -202,6 +202,19 @@
             <property name="text">
              <string>토핑 이름1</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_topping_price_1">
+            <property name="text">
+             <string>토핑 가격 1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -240,6 +253,19 @@
             <property name="text">
              <string>토핑 이름2</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_topping_price_2">
+            <property name="text">
+             <string>토핑 가격 2</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -277,6 +303,19 @@
             </property>
             <property name="text">
              <string>토핑 이름3</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_topping_price_3">
+            <property name="text">
+             <string>토핑 가격 3</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>

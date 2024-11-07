@@ -25,7 +25,9 @@ class Popup_Topping(QDialog, form_topping_page):
         # ! 3개의 토핑이 고정적이라 DB에서도 최소 3개의 토핑은 항상 존재해야함 
         self.topping_pixmap = [QPixmap(), QPixmap(), QPixmap()]
         self.topping_imgs = [self.img_topping_1, self.img_topping_2, self.img_topping_3]
-        self.topping_labels = [self.label_topping_name_1, self.label_topping_name_2, self.label_topping_name_3]
+        self.topping_name_labels = [self.label_topping_name_1, self.label_topping_name_2, self.label_topping_name_3]
+        self.topping_price_labels = [self.label_topping_price_1, self.label_topping_price_2, self.label_topping_price_3]
+        self.topping_prices = []
         self.topping_frames = [self.frame_topping_1, self.frame_topping_2, self.frame_topping_3]
         self.funcs = [self.select_topping_1, self.select_topping_2, self.select_topping_3]
         
@@ -73,20 +75,23 @@ class Popup_Topping(QDialog, form_topping_page):
 
         # DB에서 토핑정보 가져오기
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)   
-        query_expr = 'select NAME, IMG, STATUS from TOPPING'
+        query_expr = 'select NAME, PRICE, IMG, STATUS from TOPPING'
         cursor.execute(query_expr)
         topping_infos = cursor.fetchall()
 
         for i in range(3):
             # 각 토핑이 위치할 이미지 라벨, 라벨, 정보, 동작할 함수 지정
             img = self.topping_imgs[i]
-            label = self.topping_labels[i]
+            label_name = self.topping_name_labels[i]
+            label_price = self.topping_price_labels[i]
             pixmap = self.topping_pixmap[i]
             info = topping_infos[i]
             event_func = self.funcs[i]
             
             # 토핑 이름 및 이미지 출력
-            label.setText(info['NAME'])
+            label_name.setText(info['NAME'])
+            label_price.setText(f'+{info["PRICE"]}원')
+            self.topping_prices.append(info["PRICE"])
             topping_image = urllib.request.urlopen(info['IMG']).read()
             pixmap.loadFromData(topping_image)
             # 품절이라면 그레이스케일로 이미지 변환
@@ -136,7 +141,11 @@ class Popup_Topping(QDialog, form_topping_page):
     def send_order_information(self):
         # 선택된 토핑이 있는 경우 그에 맞춰 주문정보를 반환
         if self.picked_topping:
-            self.order_info = {'menu': self.menu_name, 'topping':self.topping_labels[self.picked_topping-1].text(), 'price': self.menu_price }
+            self.order_info = {
+                'menu': self.menu_name, 
+                'topping':self.topping_name_labels[self.picked_topping-1].text(), 
+                'price': self.menu_price+self.topping_prices[self.picked_topping-1]
+                }
             self.close()
         else:
             QMessageBox.information(self, 'title - select topping', '토핑은 반드시 선택해야합니다.')
