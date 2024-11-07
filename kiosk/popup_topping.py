@@ -73,10 +73,15 @@ class Popup_Topping(QDialog, form_topping_page):
             label.setText(info['NAME'])
             topping_image = urllib.request.urlopen(info['IMG']).read()
             pixmap.loadFromData(topping_image)
+            if info['STATUS'] == 0:
+                pixmap = QPixmap.fromImage(pixmap.toImage().convertToFormat(QImage.Format_Grayscale8))
             img.setPixmap(pixmap)
             img.setScaledContents(True)
 
-            img.mousePressEvent = event_func
+            if info['STATUS']:
+                img.mousePressEvent = event_func
+            else:
+                img.mousePressEvent = self.show_soldout_message
 
     def select_topping_1(self, event):
         self.reset_frame_style()
@@ -96,6 +101,9 @@ class Popup_Topping(QDialog, form_topping_page):
     def reset_frame_style(self):
         for frame in self.topping_frames:
             frame.setStyleSheet('')
+    
+    def show_soldout_message(self, event):
+        QMessageBox.information(self, 'Title', '이 토핑은 품절 상태입니다.')
 
     def cancel_order(self):
         self.order_info = None
