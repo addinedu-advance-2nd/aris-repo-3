@@ -15,10 +15,11 @@ class Popup_Topping(QDialog, form_topping_page):
 
         # DB와의 커넥터 저장
         self.conn = conn
-        # 메뉴 이름, 이미지를 위한 변수 생성
+        # 메뉴 이름, 이미지, 가격을 위한 변수 생성
         self.menu_name = menu_name
         self.pixmap_menu = QPixmap()
         self.menu_image = None
+        self.menu_price = 0
 
         # 3개의 토핑에 대한 이미지 자리, 라벨, 선택시 디자인을 바꿀 프레임, 버튼의 콜백함수 목록 생성
         # ! 3개의 토핑이 고정적이라 DB에서도 최소 3개의 토핑은 항상 존재해야함 
@@ -56,6 +57,7 @@ class Popup_Topping(QDialog, form_topping_page):
         result, = cursor.fetchall()
 
         # 가격, 설명 출력
+        self.menu_price = result["PRICE"]
         self.label_price.setText(f'{result["PRICE"]} 원')
         # TODO : 메뉴 이름을 바탕으로 가격과 메뉴 설명(추후 추가 예정)을 가져옴. 현재는 임시로 NAME사용
         self.label_menu_comment.setText(result['NAME']+'설명설명설명')
@@ -134,7 +136,7 @@ class Popup_Topping(QDialog, form_topping_page):
     def send_order_information(self):
         # 선택된 토핑이 있는 경우 그에 맞춰 주문정보를 반환
         if self.picked_topping:
-            self.order_info = {'menu': self.menu_name, 'topping':self.topping_labels[self.picked_topping-1].text()}
+            self.order_info = {'menu': self.menu_name, 'topping':self.topping_labels[self.picked_topping-1].text(), 'price': self.menu_price }
         else:
             self.order_info = None
         self.close()
