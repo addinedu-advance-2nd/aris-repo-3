@@ -27,6 +27,9 @@ class Popup_Topping(QDialog, form_topping_page):
         
         self.btn_cancel.clicked.connect(self.cancel_order)
         self.btn_order.clicked.connect(self.send_order_information)
+        '''
+        QPushButton : btn_order
+        '''
 
         self.load_menu_information()
         self.load_topping_information()
