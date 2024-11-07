@@ -137,9 +137,10 @@ class Popup_Topping(QDialog, form_topping_page):
         # 선택된 토핑이 있는 경우 그에 맞춰 주문정보를 반환
         if self.picked_topping:
             self.order_info = {'menu': self.menu_name, 'topping':self.topping_labels[self.picked_topping-1].text(), 'price': self.menu_price }
+            self.close()
         else:
-            self.order_info = None
-        self.close()
+            QMessageBox.information(self, 'title - select topping', '토핑은 반드시 선택해야합니다.')
+        
 
 if __name__ == '__main__':
     conn = pymysql.connect(
