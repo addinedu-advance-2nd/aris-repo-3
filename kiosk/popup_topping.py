@@ -103,6 +103,7 @@ class Popup_Topping(QDialog, form_topping_page):
 
     def send_order_information(self):
         if self.picked_topping:
+            print("send_order_information 실행, menu = ", self.menu_name, "topping = ", self.menu_name)
             self.order_info = {'menu': self.menu_name, 'topping':self.topping_labels[self.picked_topping-1].text()}
         else:
             self.order_info = None
