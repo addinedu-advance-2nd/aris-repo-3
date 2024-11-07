@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="frameShape">
@@ -54,391 +54,106 @@
           <property name="frameShadow">
            <enum>QFrame::Plain</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QFrame" name="frame">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>10</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Box</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QPushButton" name="category_btn1">
-                <property name="text">
-                 <string>초콜릿</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="category_btn2">
-                <property name="text">
-                 <string>과일</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="category_btn3">
-                <property name="text">
-                 <string>플레인</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="category_btn4">
-                <property name="text">
-                 <string>스페셜</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>100</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Box</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="0">
-               <widget class="QFrame" name="frame_3">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <item>
-                  <widget class="QLabel" name="menu_img_1">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>2</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_1">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_1">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QFrame" name="frame_4">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_2">
-                 <item>
-                  <widget class="QLabel" name="menu_img_2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_2">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_2">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QFrame" name="frame_5">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_3">
-                 <item>
-                  <widget class="QLabel" name="menu_img_3">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_3">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_3">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QFrame" name="frame_9">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_7">
-                 <item>
-                  <widget class="QLabel" name="menu_img_4">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_4">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_4">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QFrame" name="frame_6">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item>
-                  <widget class="QLabel" name="menu_img_5">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_5">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_5">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QFrame" name="frame_7">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <item>
-                  <widget class="QLabel" name="menu_img_6">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_6">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_6">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QFrame" name="frame_8">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_6">
-                 <item>
-                  <widget class="QLabel" name="menu_img_7">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_7">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_7">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QFrame" name="frame_10">
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_8">
-                 <item>
-                  <widget class="QLabel" name="menu_img_8">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_name_8">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="menu_price_8">
-                   <property name="text">
-                    <string>TextLabel</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QFrame" name="frame">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>891</width>
+             <height>51</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>10</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="category_btn1">
+              <property name="text">
+               <string>초콜릿</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="category_btn2">
+              <property name="text">
+               <string>과일</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="category_btn3">
+              <property name="text">
+               <string>플레인</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="category_btn4">
+              <property name="text">
+               <string>스페셜</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QFrame" name="menu_frame">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>81</y>
+             <width>881</width>
+             <height>641</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>100</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="menu_area">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents_2">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>859</width>
+                 <height>619</height>
+                </rect>
+               </property>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
         <item>
          <widget class="QFrame" name="frame_14">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>2</horstretch>
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -478,7 +193,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_12">
+            <widget class="QFrame" name="cart_frame">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -491,6 +206,25 @@
              <property name="frameShadow">
               <enum>QFrame::Plain</enum>
              </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QScrollArea" name="cart_area">
+                <property name="widgetResizable">
+                 <bool>true</bool>
+                </property>
+                <widget class="QWidget" name="scrollAreaWidgetContents">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>78</width>
+                   <height>485</height>
+                  </rect>
+                 </property>
+                </widget>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
