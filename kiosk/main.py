@@ -19,6 +19,10 @@ from popup_topping import Popup_Topping
 from menu_widget import MenuWidget
 from cart_widget import CartWidget
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+
 ''' 
 Button, Widget, Label, Frame, dialog, Stacked Widget
 팝업창 => QDialog, but QT디자이너에서 존재x
@@ -51,6 +55,8 @@ class MyKiosk(QMainWindow, kiosk_class):
         self.logo_click_count = 0  
         self.total_cart_num = 0  
 
+        self.cart_widget = CartWidget()
+
         # 화면보호기 이미지 설정
         self.set_ad_img()
 
@@ -62,31 +68,33 @@ class MyKiosk(QMainWindow, kiosk_class):
         # 로고라벨 클릭시 이벤트 연결
         self.logo_label.mousePressEvent = self.go_to_admin
         # 구매버튼 클릭시 함수실행
-        # self.buy_btn.clicked.connect(self.go_to_confirm)
 
         # TODO 메뉴테이블 
         '''
+        [Menu Widget]
         QFrame : menu_frame
             QScrollArea : menu_area
         '''
+
+        '''
+        [Cart Widget]
+        QFrame : cart_frame
+            QScrollArea : cart_area
+        '''
+        print("ok"*10)
         # 객체 찾기
         target_frame = self.findChild(QFrame, "menu_frame")  
         self.scroll_area = self.findChild(QScrollArea, "menu_area") 
 
-        # 수직 레이아웃 설정 + 간격제거
+        cart_frame = self.findChild(QFrame, "cart_frame")  
+        self.cart_area = self.findChild(QScrollArea, "cart_area") 
+
+        # 레이아웃 설정 + 간격제거
         self.menu_layout = QVBoxLayout(target_frame)
         self.menu_layout.setContentsMargins(0, 0, 0, 0) 
         self.menu_layout.setSpacing(0)
 
-        # 카테고리 버튼 4개
-        '''
-        QPushButton : category_btn(1~4)
-        '''
-        for i in range(1, 5): 
-            button = self.findChild(QPushButton, f"category_btn{i}")            
-            button.clicked.connect(self.show_menu)
-
-        # ScrollArea 설정, menu_frame의 크기에 맞춤
+        # ScrollArea 설정, menu_frame의 cart_area크기에 맞춤
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setMinimumSize(target_frame.size()) 
 
@@ -97,34 +105,25 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         # ScrollArea를 menu_layout에 추가
         self.menu_layout.addWidget(self.scroll_area)
-        
+        print("Here"*10)
+        self.cart_layout.addWidget(self.cart_area)
+
+        # 카테고리 버튼 4개
+        '''
+        QPushButton : category_btn(1~4)
+        '''
+        for i in range(1, 5): 
+            button = self.findChild(QPushButton, f"category_btn{i}")            
+            button.clicked.connect(self.show_menu)
 
         #TODO 장바구니
-        '''
-        QFrame : cart_frame
-            QScrollArea : cart_area
-        '''
-        # 객체 찾기
-        cart_frame = self.findChild(QFrame, "cart_frame")  
-        self.cart_area = self.findChild(QScrollArea, "cart_area") 
 
-        # ScrollArea 설정, cart_frame의 크기에 맞춤
-        self.cart_area.setWidgetResizable(True)
-        self.cart_area.setMinimumSize(cart_frame.size()) 
-
-        # ScrollArea의 콘텐츠 위젯 설정, 장바구니 항목을 담을 수직 레이아웃 추가
-        self.cart_content = QWidget()
-        self.cart_layout = QVBoxLayout(self.cart_content)  
-        self.cart_area.setWidget(self.cart_content)
-        self.cart_layout.setContentsMargins(0, 0, 0, 0)
-        self.cart_layout.setSpacing(5)
-
-        
-        self.cart_widget = CartWidget()
-        # CartWidget 내부 요소에 접근하여 버튼 이벤트 설정
+    
+        # 장바구니 버튼 => 함수
         self.cart_widget.btn_del.clicked.connect(self.remove_cart_item)
         self.cart_widget.btn_minus.clicked.connect(self.decrease_quantity)
         self.cart_widget.btn_plus.clicked.connect(self.increase_quantity)
+
     connection.commit()
     
     # 화면보호기 이미지 설정
@@ -176,17 +175,26 @@ class MyKiosk(QMainWindow, kiosk_class):
         # TODO : 메뉴이름을 전달받는 과정이 추가되어야
         self.topping_window = Popup_Topping(menu_name, connection)
         self.topping_window.exec()
-
-        # order = self.topping_window.order_info  # 메인에서 주문 정보 전달 => cart_widget에서 받는다
-        # print('order: ', order)
-            # Popup_Topping 창이 닫힌 후 order_info 확인
+        
         order_info = self.topping_window.order_info
         if order_info:
-            print('주문 정보 확인:', order_info)  # 디버깅용 출력
-            self.open_order(self, self.menu_name, 1000)
+            print('go_to_topping 함수 실행 order_info = ', order_info)
+            # self.update_cart_widget(order_info)
+            self.show_cart(order_info)
+
         else:
             print('주문 정보가 없습니다.')
-    
+
+    # # 메인메뉴에서 주문정보 받아옴
+    # def update_cart_widget(self, order_info):
+    #     # CartWidget의 각 요소에 주문 정보 표시
+    #     order_info['price'] = 9999      # 더미 데이터
+    #     print(order_info)
+    #     print("update_cart_widget 함수 실행, 주문데이터를 받아왔습니다.")
+    #     self.cart_widget.cart_name.setText(order_info['menu'])
+    #     self.cart_widget.cart_num.setText("1")  # 초기 수량은 1
+    #     self.cart_widget.cart_top.setText(order_info['topping'])
+    #     self.cart_widget.label_price.setText(f"{order_info['price']} 원")
 
     # 메뉴위젯으로 전환 (4xn)
     def show_menu(self):
@@ -258,27 +266,9 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         print(f"{num_widgets}개의 메뉴 위젯이 레이아웃에 추가되었습니다.")
 
-
-    #TODO
-    def open_order(self, menu_name, price):
-        # 주문창 열기 전 주문량 확인
-        self.check_order()
-
-        # Popup_Topping 창을 열어 주문 정보 가져오기
-        topping_window = Popup_Topping(menu_name, price, self)
-        topping_window.exec()
-        print(order_info)
-        order_info = topping_window.order_info  # Popup_Topping 창에서 받은 주문 정보
-        self.update_cart_widget(order_info)
-
-    def update_cart_widget(self, order_info):
-        # CartWidget의 각 요소에 주문 정보 표시
-        print(order_info)
-        self.cart_widget.cart_name.setText(order_info['name'])
-        self.cart_widget.cart_num.setText("1")  # 초기 수량은 1
-        self.cart_widget.cart_top.setText(order_info['topping'])
-        self.cart_widget.label_price.setText(f"{order_info['price']} 원")
-        self.total_cart_num += 1
+    # 카트위젯으로 전환
+    def show_cart(self, order_info):
+      pass
 
     # 장바구니 - 제거버튼
     def remove_cart_item(self):
@@ -287,7 +277,7 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         self.cart_widget.setParent(None)
 
-    # 장바구니 - -버튼
+    # 장바구니 -버튼
     def decrease_quantity(self):
         quantity = int(self.cart_widget.cart_num.text())
         if quantity > 1:
