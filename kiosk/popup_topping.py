@@ -4,6 +4,7 @@ import urllib.request
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from PyQt5 import uic
 
 sold_out_image_url = 'https://img.freepik.com/premium-vector/sold-out-sign-vector-template_917138-853.jpg'
@@ -14,6 +15,8 @@ class Popup_Topping(QDialog, form_topping_page):
         super().__init__()
         self.setupUi(self)  
 
+        # 윈도우 기본 프레임 제거
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint) 
         # DB와의 커넥터 저장
         self.conn = conn
         # 메뉴 이름, 이미지, 가격을 위한 변수 생성
