@@ -300,12 +300,11 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         print(f"장바구니에 항목 추가됨: 메뉴 - {order_info['menu']}, 토핑 - {order_info['topping']}, 가격 - {order_info['price']}")
 
-
-    # 장바구니에 6개 이상 담길 경우 경고
+    # 장바구니에 3개 이상 담길 경우 경고
     def check_order(self):
         print(self.total_cart_num)
-        if self.total_cart_num >= 6:
-            QMessageBox.warning(self, "Order Error", "아직 초보 바텐드로이드에게\n6개 이상의 주문은 무리에요😭")
+        if self.total_cart_num >= 3:
+            QMessageBox.warning(self, "Order Error", "아직 초보 바텐드로이드에게\n3개 이상의 주문은 무리에요😭")
             return
 
 

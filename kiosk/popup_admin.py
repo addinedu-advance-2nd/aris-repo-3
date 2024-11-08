@@ -9,16 +9,22 @@ PASSWD = '12345'
 
 # TODO: 활성화/비활성화 되어있는 것의 디자인 수정이 필요
 STYLE_ACTIVE = '''
-    color: rgb(50, 50, 255);
-    border: 2px solid rgb(90, 180, 255);
-    border-radius: 10px; 
-    font: 63 12pt "Gulim";
+    color: rgb(229, 79, 64);
+    border: 2px solid rgb(229, 79, 64);
+    border-radius: 7px; 
+    font-family: 'Ubuntu';
+    font-size: 11pt;
+    height: 50px;
+    margin-right: 5px;
 '''
 STYLE_DEACTIVE = '''
-    color: rgb(230, 230, 230);
-    border: 2px solid black;
-    border-radius:10px;
-    font: 63 12pt "Gulim";
+    color: rgb(45, 45, 45);
+    border: 2px solid rgb(45, 45, 45);
+    border-radius:7px;
+    font-family: 'Ubuntu';
+    font-size: 11pt;
+    height: 50px;
+    margin-right: 5px;
 '''
 
 form_admin_page = uic.loadUiType('kiosk/UI/popup_admin.ui')[0]
