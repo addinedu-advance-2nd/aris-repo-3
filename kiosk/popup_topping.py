@@ -7,6 +7,14 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
 
+STYLE_SELECTED = '''
+border: 2px solid;
+'''
+
+STYLE_DEFAULT = '''
+
+'''
+
 sold_out_image_url = 'https://img.freepik.com/premium-vector/sold-out-sign-vector-template_917138-853.jpg'
 form_topping_page = uic.loadUiType('kiosk/UI/popup_topping.ui')[0]
 
@@ -115,25 +123,25 @@ class Popup_Topping(QDialog, form_topping_page):
     def select_topping_1(self, event):
         # 토핑1에 대한 이벤트(프레임 강조 및 선택 토핑 정보 저장)
         self.reset_frame_style()
-        self.topping_frames[0].setStyleSheet('QFrame#frame_topping_1 { border: 2px solid; }')
+        self.topping_frames[0].setStyleSheet(f'QFrame#frame_topping_1 {{{STYLE_SELECTED}}}')
         self.picked_topping = 1
     
     def select_topping_2(self, event):
         # 토핑2에 대한 이벤트(프레임 강조 및 선택 토핑 정보 저장)
         self.reset_frame_style()
-        self.topping_frames[1].setStyleSheet('QFrame#frame_topping_2 { border: 2px solid; }')
+        self.topping_frames[1].setStyleSheet(f'QFrame#frame_topping_2 {{{STYLE_SELECTED}}}')
         self.picked_topping = 2
 
     def select_topping_3(self, event):
         # 토핑3에 대한 이벤트(프레임 강조 및 선택 토핑 정보 저장)
         self.reset_frame_style()
-        self.topping_frames[2].setStyleSheet('QFrame#frame_topping_3 { border: 2px solid; }')
+        self.topping_frames[2].setStyleSheet(f'QFrame#frame_topping_3 {{{STYLE_SELECTED}}}')
         self.picked_topping = 3
 
     def reset_frame_style(self):
         # 강조된 프레임 스타일을 제거
         for frame in self.topping_frames:
-            frame.setStyleSheet('')
+            frame.setStyleSheet(STYLE_DEFAULT)
     
     def show_soldout_message(self, event):
         # 품절 안내 메세지 출력
