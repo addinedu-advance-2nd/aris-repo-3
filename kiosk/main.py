@@ -15,6 +15,7 @@ import pymysql
 
 from popup_admin import Popup_Admin
 from popup_topping import Popup_Topping
+from popup_order import Popup_order
 
 from menu_widget import MenuWidget
 from cart_widget import CartWidget
@@ -71,7 +72,10 @@ class MyKiosk(QMainWindow, kiosk_class):
         self.page_initial.mousePressEvent = self.go_to_main
         # 로고라벨 클릭시 이벤트 연결
         self.logo_label.mousePressEvent = self.go_to_admin
+        # TODO: qt designer 내 객체 이름이 규칙에 맞지 않아서 수정이 필요
+        # TODO: 버튼의 클릭 이벤트에 대해서 mousePressEvent를 할지, clicked.connect를 할지, 통일시킬지 말지 결정이 필요함. 
         # 구매버튼 클릭시 함수실행
+        self.buy_btn.clicked.connect(self.go_to_confirm_order)
 
         # TODO 메뉴테이블 
         '''
@@ -195,6 +199,24 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         else:
             print('주문 정보가 없습니다.')
+
+    def go_to_confirm_order(self):
+        # 메인화면 내 장바구니의 주문정보를 받아와 
+        #TODO : 샘플 주문을 장바구니에서 가져온 정보로 바꿔야함. 
+        sample_order1 = [
+            {'name':'나주배 소르베', 'topping': '바닐라', 'price': 5000, 'count': 1}, 
+            {'name':'아몬드 봉봉', 'topping': '바닐라', 'price': 2000, 'count': 1}, 
+            {'name':'피스타치오 아몬드', 'topping': '레인보우', 'price': 3000, 'count': 1}, 
+            {'name':'소금우유 아이스크림', 'topping': '초콜릿', 'price': 7000, 'count': 1}, 
+            {'name':'아몬드 봉봉', 'topping': '바닐라', 'price': 2000, 'count': 1}, 
+            {'name':'피스타치오 아몬드', 'topping': '레인보우', 'price': 3000, 'count': 1}, 
+        ]
+        self.order_info = sample_order1
+        self.available_positions = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'A1', 'A2', 'A3', 'B1', 'B2', 'B3', ]
+        self.order_window = Popup_order(self.order_info, self.available_positions)
+        self.order_window.show()
+
+        # TODO : 메인화면(장바구니)을 초기화하는 함수가 필요함.
 
     # 메뉴위젯으로 전환 (4xn)
     def show_menu(self):

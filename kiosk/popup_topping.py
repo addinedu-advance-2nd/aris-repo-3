@@ -4,8 +4,18 @@ import urllib.request
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from PyQt5 import uic
 
+STYLE_SELECTED = '''
+border: 2px solid;
+'''
+
+STYLE_DEFAULT = '''
+
+'''
+
+sold_out_image_url = 'https://img.freepik.com/premium-vector/sold-out-sign-vector-template_917138-853.jpg'
 form_topping_page = uic.loadUiType('kiosk/UI/popup_topping.ui')[0]
 
 class Popup_Topping(QDialog, form_topping_page):
@@ -13,6 +23,8 @@ class Popup_Topping(QDialog, form_topping_page):
         super().__init__()
         self.setupUi(self)  
 
+        # 윈도우 기본 프레임 제거
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint) 
         # DB와의 커넥터 저장
         self.conn = conn
         # 메뉴 이름, 이미지, 가격을 위한 변수 생성
@@ -53,17 +65,14 @@ class Popup_Topping(QDialog, form_topping_page):
 
         # DB에서 메뉴 이름에 해당하는 정보 가져오기
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
-        # TODO : 메뉴 이름을 바탕으로 가격과 메뉴 설명(추후 추가 예정)을 가져옴. 현재는 임시로 NAME사용
-        query_expr = f'select PRICE, NAME, IMG from ICECREAM where NAME="{self.menu_name}"'
-
+        query_expr = f'select PRICE, NAME, IMG, CONTENT from ICECREAM where NAME="{self.menu_name}"'
         cursor.execute(query_expr)
         result = cursor.fetchall()
 
         # 가격, 설명 출력
         self.menu_price = result["PRICE"]
         self.label_price.setText(f'{result["PRICE"]} 원')
-        # TODO : 메뉴 이름을 바탕으로 가격과 메뉴 설명(추후 추가 예정)을 가져옴. 현재는 임시로 NAME사용
-        self.label_menu_comment.setText(result['NAME']+'설명설명설명')
+        self.label_menu_comment.setText(result['CONTENT'])
 
         # url을 통해 이미지 가져오고 출력
         image = urllib.request.urlopen(result['IMG']).read()
@@ -93,13 +102,17 @@ class Popup_Topping(QDialog, form_topping_page):
             label_name.setText(info['NAME'])
             label_price.setText(f'+{info["PRICE"]}원')
             self.topping_prices.append(info["PRICE"])
-            topping_image = urllib.request.urlopen(info['IMG']).read()
-            pixmap.loadFromData(topping_image)
-            # 품절이라면 그레이스케일로 이미지 변환
+            
+            # 이미지를 url에서 로드, 품절이라면 품절 이미지 사용
             if info['STATUS'] == 0:
-                pixmap = QPixmap.fromImage(pixmap.toImage().convertToFormat(QImage.Format_Grayscale8))
+                soldout_img = urllib.request.urlopen(sold_out_image_url).read()
+                pixmap.loadFromData(soldout_img)
+            else:
+                topping_image = urllib.request.urlopen(info['IMG']).read()
+                pixmap.loadFromData(topping_image)
             img.setPixmap(pixmap)
             img.setScaledContents(True)
+            # img.resize()
 
             # 판매중이라면 일반 이벤트 등록, 품절이라면 품절 안내 이벤트 등록
             if info['STATUS']:
@@ -110,25 +123,25 @@ class Popup_Topping(QDialog, form_topping_page):
     def select_topping_1(self, event):
         # 토핑1에 대한 이벤트(프레임 강조 및 선택 토핑 정보 저장)
         self.reset_frame_style()
-        self.topping_frames[0].setStyleSheet('QFrame#frame_topping_1 { border: 2px solid; }')
+        self.topping_frames[0].setStyleSheet(f'QFrame#frame_topping_1 {{{STYLE_SELECTED}}}')
         self.picked_topping = 1
     
     def select_topping_2(self, event):
         # 토핑2에 대한 이벤트(프레임 강조 및 선택 토핑 정보 저장)
         self.reset_frame_style()
-        self.topping_frames[1].setStyleSheet('QFrame#frame_topping_2 { border: 2px solid; }')
+        self.topping_frames[1].setStyleSheet(f'QFrame#frame_topping_2 {{{STYLE_SELECTED}}}')
         self.picked_topping = 2
 
     def select_topping_3(self, event):
         # 토핑3에 대한 이벤트(프레임 강조 및 선택 토핑 정보 저장)
         self.reset_frame_style()
-        self.topping_frames[2].setStyleSheet('QFrame#frame_topping_3 { border: 2px solid; }')
+        self.topping_frames[2].setStyleSheet(f'QFrame#frame_topping_3 {{{STYLE_SELECTED}}}')
         self.picked_topping = 3
 
     def reset_frame_style(self):
         # 강조된 프레임 스타일을 제거
         for frame in self.topping_frames:
-            frame.setStyleSheet('')
+            frame.setStyleSheet(STYLE_DEFAULT)
     
     def show_soldout_message(self, event):
         # 품절 안내 메세지 출력
