@@ -43,7 +43,7 @@
          <widget class="QFrame" name="frame_15">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>8</horstretch>
+            <horstretch>18</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -156,7 +156,7 @@
          <widget class="QFrame" name="frame_14">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>1</horstretch>
+            <horstretch>4</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -214,8 +214,8 @@
                <rect>
                 <x>10</x>
                 <y>10</y>
-                <width>16</width>
-                <height>16</height>
+                <width>91</width>
+                <height>71</height>
                </rect>
               </property>
               <property name="widgetResizable">
@@ -226,8 +226,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>16</width>
-                 <height>16</height>
+                 <width>89</width>
+                 <height>69</height>
                 </rect>
                </property>
               </widget>
