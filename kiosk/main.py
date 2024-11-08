@@ -57,6 +57,10 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         self.cart_widget = CartWidget()
 
+        # cursor = self.conn.cursor(pymysql.cursors.DictCursor)
+
+     
+
         # 화면보호기 이미지 설정
         self.set_ad_img()
 
@@ -130,11 +134,6 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         #TODO 장바구니
 
-    
-        # 장바구니 버튼 => 함수
-        self.cart_widget.btn_del.clicked.connect(self.remove_cart_item)
-        self.cart_widget.btn_minus.clicked.connect(self.decrease_quantity)
-        self.cart_widget.btn_plus.clicked.connect(self.increase_quantity)
 
     connection.commit()
     
@@ -197,17 +196,6 @@ class MyKiosk(QMainWindow, kiosk_class):
         else:
             print('주문 정보가 없습니다.')
 
-    # # 메인메뉴에서 주문정보 받아옴
-    # def update_cart_widget(self, order_info):
-    #     # CartWidget의 각 요소에 주문 정보 표시
-    #     order_info['price'] = 9999      # 더미 데이터
-    #     print(order_info)
-    #     print("update_cart_widget 함수 실행, 주문데이터를 받아왔습니다.")
-    #     self.cart_widget.cart_name.setText(order_info['menu'])
-    #     self.cart_widget.cart_num.setText("1")  # 초기 수량은 1
-    #     self.cart_widget.cart_top.setText(order_info['topping'])
-    #     self.cart_widget.label_price.setText(f"{order_info['price']} 원")
-
     # 메뉴위젯으로 전환 (4xn)
     def show_menu(self):
         # 클릭된 버튼 확인
@@ -221,6 +209,7 @@ class MyKiosk(QMainWindow, kiosk_class):
             "category_btn3": 6,
             "category_btn4": 12
         }
+ 
 
         # 버튼 이름을 사용하여 생성할 메뉴 위젯 수를 가져오기
         num_widgets = widget_counts.get(button_name, 8)  # 기본값 8
@@ -248,7 +237,7 @@ class MyKiosk(QMainWindow, kiosk_class):
             row_layout.setSpacing(10)  # 위젯 간격을 균일하게 설정
             for j in range(4):
                 menu_widget = MenuWidget(menu_names[row * 4 + j], self.go_to_topping)
-                menu_widget.setMinimumSize(200, 200)  # 메뉴위젯 크기 조정
+                menu_widget.setMinimumSize(10, 10)  # 메뉴위젯 크기 조정
                 menu_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
                 row_layout.addWidget(menu_widget)
             self.scroll_layout.addLayout(row_layout)
@@ -284,7 +273,7 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         # 1. CartWidget 인스턴스를 생성
         cart_item_widget = CartWidget()
-        cart_item_widget.setFixedSize(QSize(186, 50))  # 장바구니 너비 186
+        cart_item_widget.setFixedSize(QSize(160, 140))  # 장바구니 너비 186
 
         # CartWidget이 스크롤 영역의 가로 크기에 맞춰지도록 설정
         cart_item_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -304,36 +293,13 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         # 4. 장바구니 레이아웃에 빈 공간 추가
         self.cart_layout.addStretch()  # addStretch로 남은 공간을 공백으로 채움
-
+        print(f'current cart : {self.cart_layout.count()}')
         # 5. 장바구니 UI 업데이트
         self.cart_content.update()
         self.cart_content.adjustSize()
 
         print(f"장바구니에 항목 추가됨: 메뉴 - {order_info['menu']}, 토핑 - {order_info['topping']}, 가격 - {order_info['price']}")
 
-
-        
-      
-
-    # 장바구니 - 제거버튼
-    def remove_cart_item(self):
-        cur_cart_num = int(self.cart_widget.cart_num.text())
-        self.total_cart_num -= cur_cart_num
-
-        self.cart_widget.setParent(None)
-
-    # 장바구니 -버튼
-    def decrease_quantity(self):
-        quantity = int(self.cart_widget.cart_num.text())
-        if quantity > 1:
-            self.cart_widget.cart_num.setText(str(quantity - 1))
-            self.total_cart_num -= 1
-
-    # 장바구니 +버튼
-    def increase_quantity(self):
-        quantity = int(self.cart_widget.cart_num.text())
-        self.cart_widget.cart_num.setText(str(quantity + 1))
-        self.total_cart_num += 1
 
     # 장바구니에 6개 이상 담길 경우 경고
     def check_order(self):
