@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
 
+sold_out_image_url = 'https://img.freepik.com/premium-vector/sold-out-sign-vector-template_917138-853.jpg'
 form_topping_page = uic.loadUiType('kiosk/UI/popup_topping.ui')[0]
 
 class Popup_Topping(QDialog, form_topping_page):
@@ -90,13 +91,17 @@ class Popup_Topping(QDialog, form_topping_page):
             label_name.setText(info['NAME'])
             label_price.setText(f'+{info["PRICE"]}원')
             self.topping_prices.append(info["PRICE"])
-            topping_image = urllib.request.urlopen(info['IMG']).read()
-            pixmap.loadFromData(topping_image)
-            # 품절이라면 그레이스케일로 이미지 변환
+            
+            # 이미지를 url에서 로드, 품절이라면 품절 이미지 사용
             if info['STATUS'] == 0:
-                pixmap = QPixmap.fromImage(pixmap.toImage().convertToFormat(QImage.Format_Grayscale8))
+                soldout_img = urllib.request.urlopen(sold_out_image_url).read()
+                pixmap.loadFromData(soldout_img)
+            else:
+                topping_image = urllib.request.urlopen(info['IMG']).read()
+                pixmap.loadFromData(topping_image)
             img.setPixmap(pixmap)
             img.setScaledContents(True)
+            # img.resize()
 
             # 판매중이라면 일반 이벤트 등록, 품절이라면 품절 안내 이벤트 등록
             if info['STATUS']:
