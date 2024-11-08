@@ -13,11 +13,11 @@ form_main_menu = uic.loadUiType('kiosk/UI/widget_main_menu.ui')[0]
     QLabel : label_name, label_price
 '''
 class MenuWidget(QWidget, form_main_menu):
-    def __init__(self, menu_name, click_callback):
+    def __init__(self, name, price, image_url):
         super().__init__()
         self.setupUi(self)
-        self.menu_name = menu_name
-        self.click_callback = click_callback
+
+
 
         self.btn_image.clicked.connect(self.handle_click)
     
@@ -27,6 +27,12 @@ class MenuWidget(QWidget, form_main_menu):
 
 
 if __name__ == "__main__":
+    conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='12345678',
+        database='BARTENDROID'
+    )
     app = QApplication(sys.argv)
     window = MenuWidget()
     window.show()

@@ -67,7 +67,7 @@ class Popup_Topping(QDialog, form_topping_page):
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
         query_expr = f'select PRICE, NAME, IMG, CONTENT from ICECREAM where NAME="{self.menu_name}"'
         cursor.execute(query_expr)
-        result, = cursor.fetchall()
+        result = cursor.fetchall()
 
         # 가격, 설명 출력
         self.menu_price = result["PRICE"]
