@@ -81,32 +81,44 @@ class MyKiosk(QMainWindow, kiosk_class):
         QFrame : cart_frame
             QScrollArea : cart_area
         '''
-        print("ok"*10)
         # 객체 찾기
-        target_frame = self.findChild(QFrame, "menu_frame")  
+        self.target_frame = self.findChild(QFrame, "menu_frame")  
         self.scroll_area = self.findChild(QScrollArea, "menu_area") 
 
-        cart_frame = self.findChild(QFrame, "cart_frame")  
+        self.cart_frame = self.findChild(QFrame, "cart_frame")  
         self.cart_area = self.findChild(QScrollArea, "cart_area") 
 
         # 레이아웃 설정 + 간격제거
-        self.menu_layout = QVBoxLayout(target_frame)
+        self.menu_layout = QVBoxLayout(self.target_frame)
         self.menu_layout.setContentsMargins(0, 0, 0, 0) 
         self.menu_layout.setSpacing(0)
 
+        cart_frame_layout = QVBoxLayout(self.cart_frame)
+        cart_frame_layout.setContentsMargins(0, 0, 0, 0)  # 여백 제거
+        cart_frame_layout.addWidget(self.cart_area)  # QScrollArea 추가
+
         # ScrollArea 설정, menu_frame의 cart_area크기에 맞춤
         self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setMinimumSize(target_frame.size()) 
+        self.scroll_area.setMinimumSize(self.target_frame.size()) 
+
+        self.cart_area.setWidgetResizable(True)
+        self.cart_area.setMinimumSize(self.cart_frame.size())
 
         # ScrollArea의 콘텐츠 위젯 설정, QVBoxLayout을 ScrollArea의 콘텐츠 위젯에 설정
         self.scroll_content = QWidget()
         self.scroll_layout = QVBoxLayout(self.scroll_content)  
         self.scroll_area.setWidget(self.scroll_content)
 
+        # QScrollArea 내부에 들어갈 콘텐츠 위젯과 레이아웃 설정
+        self.cart_content = QWidget()
+        self.cart_layout = QVBoxLayout(self.cart_content)
+        self.cart_area.setWidget(self.cart_content)
+
+
+
         # ScrollArea를 menu_layout에 추가
         self.menu_layout.addWidget(self.scroll_area)
-        print("Here"*10)
-        self.cart_layout.addWidget(self.cart_area)
+
 
         # 카테고리 버튼 4개
         '''
@@ -266,9 +278,42 @@ class MyKiosk(QMainWindow, kiosk_class):
 
         print(f"{num_widgets}개의 메뉴 위젯이 레이아웃에 추가되었습니다.")
 
-    # 카트위젯으로 전환
+    # 카트 위젯에 새로운 주문 추가
     def show_cart(self, order_info):
-      pass
+        print("show_cart 함수를 실행합니다, order_info :", order_info)
+
+        # 1. CartWidget 인스턴스를 생성
+        cart_item_widget = CartWidget()
+        cart_item_widget.setFixedSize(QSize(186, 50))  # 장바구니 너비 186
+
+        # CartWidget이 스크롤 영역의 가로 크기에 맞춰지도록 설정
+        cart_item_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+        # 주문 정보를 CartWidget의 라벨에 설정
+        cart_item_widget.cart_name.setText(order_info['menu'])
+        cart_item_widget.cart_num.setText(str(1))
+        cart_item_widget.cart_top.setText(order_info['topping'])
+        cart_item_widget.label_price.setText(f"{order_info['price']} 원")
+
+        # 2. 기존 레이아웃의 addStretch 제거
+        if self.cart_layout.count() > 0 and isinstance(self.cart_layout.itemAt(self.cart_layout.count() - 1), QSpacerItem):
+            self.cart_layout.takeAt(self.cart_layout.count() - 1)
+
+        # 3. 새로운 CartWidget을 장바구니 레이아웃에 추가
+        self.cart_layout.addWidget(cart_item_widget)
+
+        # 4. 장바구니 레이아웃에 빈 공간 추가
+        self.cart_layout.addStretch()  # addStretch로 남은 공간을 공백으로 채움
+
+        # 5. 장바구니 UI 업데이트
+        self.cart_content.update()
+        self.cart_content.adjustSize()
+
+        print(f"장바구니에 항목 추가됨: 메뉴 - {order_info['menu']}, 토핑 - {order_info['topping']}, 가격 - {order_info['price']}")
+
+
+        
+      
 
     # 장바구니 - 제거버튼
     def remove_cart_item(self):

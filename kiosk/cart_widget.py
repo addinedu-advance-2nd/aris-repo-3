@@ -14,7 +14,9 @@ QWidget : cart_widget
 class CartWidget(QWidget, form_cart):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)  
+        self.setupUi(self) 
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
