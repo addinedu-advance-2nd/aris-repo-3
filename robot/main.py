@@ -53,19 +53,19 @@ class RobotMain(object):
     def home_L(self):
         # Joint Motion
         print("Starting home_L")
-        code = self._arm.set_cgpio_analog(0, 0)
-        if not self._check_code(code, 'set_cgpio_analog'):
+        code = self._arm.set_cgpio_analog(0, 0) 
+        if not self._check_code(code, 'set_cgpio_analog'): 
             return
-        code = self._arm.set_cgpio_analog(1, 0)
+        code = self._arm.set_cgpio_analog(1, 0) #디스펜서 전원 off
         if not self._check_code(code, 'set_cgpio_analog'):
             return
         
-        code = self._arm.set_cgpio_digital(0, 0, delay_sec=0)
+        code = self._arm.set_cgpio_digital(0, 0, delay_sec=0) #토핑기계+프레스
         if not self._check_code(code, 'set_cgpio_digital'):
             return
 
         code = self._arm.set_servo_angle(angle=self.position_home, speed=self._angle_speed,
-                                          mvacc=self._angle_acc, wait=True, radius=0.0)
+                                          mvacc=self._angle_acc, wait=True, radius=0.0) #Home_L
         if not self._check_code(code, 'set_servo_angle'):
             return
 
@@ -78,16 +78,16 @@ class RobotMain(object):
         code = self._arm.set_cgpio_analog(0, 0)
         if not self._check_code(code, 'set_cgpio_analog'):
             return
-        code = self._arm.set_cgpio_analog(1, 0)
-        if not self._check_code(code, 'set_cgpio_analog'):
+        code = self._arm.set_cgpio_analog(1, 0) 
+        if not self._check_code(code, 'set_cgpio_analog'): #디스펜서전원off
             return
         
-        code = self._arm.set_cgpio_digital(0, 0, delay_sec=0)
+        code = self._arm.set_cgpio_digital(0, 0, delay_sec=0) #토핑기계+프레스
         if not self._check_code(code, 'set_cgpio_digital'):
             return
 
         code = self._arm.set_servo_angle(angle=[-6.1, 4.0, 29.8, 86.9, 93.5, 27.6], speed=self._angle_speed,
-                                          mvacc=self._angle_acc, wait=True, radius=0.0)
+                                          mvacc=self._angle_acc, wait=True, radius=0.0) #Home_R
         if not self._check_code(code, 'set_servo_angle'):
             return
         print('home_R finish')
@@ -95,48 +95,48 @@ class RobotMain(object):
 #-------------------------------------------왼쪽에서 오른쪽 홈포지션으로 이동------------------------------------------
     def home_L_to_R(self):
             code = self._arm.set_position(*[-156.7, 7.0, 310.9, 81.1, 90.0, -104.1], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #Home_L
                 return
             code = self._arm.set_servo_angle(angle=[146.1, -10.7, 10.9, 102.7, 92.4, 24.9], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=20.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #Home_L_to_R_회전_1
                 return
             code = self._arm.set_servo_angle(angle=[81.0, -10.8, 6.9, 103.6, 88.6, 9.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=40.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #Home_L_to_R_2_회전_2
                 return
             code = self._arm.set_servo_angle(angle=[10.0, -20.8, 7.1, 106.7, 79.9, 26.0], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=50.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #Home_L_to_R_3_회전_3
                 return
             code = self._arm.set_servo_angle(angle=[-6.1, 4.0, 29.8, 86.9, 93.5, 27.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #Home_R
                 return
 
 #--------------------------------------------------------오른쪽에서 왼쪽 홈포지션으로 이동-----------------------------------------
     def home_R_to_L(self):
         code = self._arm.set_servo_angle(angle=[-6.1, 4.0, 29.8, 86.9, 93.5, 27.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #Home_R
             return
         code = self._arm.set_servo_angle(angle=[-6.1, -19.5, 8.1, 87.4, 93.8, 24.4], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #Home_R_to_L_rotate_1
             return
         code = self._arm.set_servo_angle(angle=[124.7, -19.5, 8.1, 87.4, 93.8, 24.4], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #Home_R_to_L_rotate_2
             return
         code = self._arm.set_position(*[-156.7, 7.0, 310.9, 81.1, 90.0, -104.1], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #Home_L
             return
 
     def home_R_to_serving(self):
         code = self._arm.set_servo_angle(angle=[-6.1, 4.0, 29.8, 86.9, 93.5, 27.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #Home_R
             return
         code = self._arm.set_servo_angle(angle=[-6.1, -19.5, 8.1, 87.4, 93.8, 24.4], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #Home_R_to_L__rotate_1
             return
         code = self._arm.set_servo_angle(angle=[124.7, -19.5, 8.1, 87.4, 93.8, 24.4], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #Home_R_to_L__rotate_2
             return
         code = self._arm.set_position(*[-162.3, -20.2, 237.4, -9.1, 86.9, -101.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #serve_ready
             return
 
 # -----------------------------------------------A,B,C 구역 아이스크림 캡술 잡는 동작 구현----------------------------------------------------------
@@ -147,7 +147,7 @@ class RobotMain(object):
         if not self._check_code(code, 'set_cgpio_analog'):
             return
         code = self._arm.set_cgpio_analog(1, 5)
-        if not self._check_code(code, 'set_cgpio_analog'):
+        if not self._check_code(code, 'set_cgpio_analog'): #컵디스펜서우로이동
             return
         
         self._angle_speed = 100
@@ -163,29 +163,29 @@ class RobotMain(object):
 
         code = self._arm.set_servo_angle(angle=[166.1, 30.2, 25.3, 75.3, 93.9, -5.4], speed=self._angle_speed,
                                             mvacc=self._angle_acc, wait=True, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #트레이 앞 위치
             return   
                
         code = self._arm.open_lite6_gripper()
-        if not self._check_code(code, 'open_lite6_gripper'):
+        if not self._check_code(code, 'open_lite6_gripper'): 
             return
         time.sleep(1)
 
         if jig_num == 'A':
             code = self._arm.set_servo_angle(angle=[193.6, 39.1, 50.7, 119.8, 83.4, 9.1], speed=self._angle_speed,
-                                             mvacc=self._angle_acc, wait=True, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+                                             mvacc=self._angle_acc, wait=True, radius=0.0) #jigA진입
+            if not self._check_code(code, 'set_servo_angle'): 
                 return
             
         elif jig_num == 'B':
             code = self._arm.set_position(*self.position_jig_B_grab, speed=self._tcp_speed,
-                                          mvacc=self._tcp_acc, radius=0.0, wait=True)
+                                          mvacc=self._tcp_acc, radius=0.0, wait=True) #jigB진입
             if not self._check_code(code, 'set_position'):
                 return
             
         elif jig_num == 'C':
             code = self._arm.set_servo_angle(angle=[182.6, 27.8, 27.7, 55.7, 90.4, -6.4], speed=self._angle_speed,
-                                             mvacc=self._angle_acc, wait=True, radius=0.0)
+                                             mvacc=self._angle_acc, wait=True, radius=0.0) #jigC진입
             if not self._check_code(code, 'set_servo_angle'):
                 return
             
@@ -219,8 +219,8 @@ class RobotMain(object):
         self._angle_acc = 170
         # ------------- 컵 잡고난 후 최종위치 ------
         code = self._arm.set_servo_angle(angle=[146.1, -10.7, 10.9, 102.7, 92.4, 24.9], speed=self._angle_speed,
-                                         mvacc=self._angle_acc, wait=False, radius=20.0)
-        if not self._check_code(code, 'set_servo_angle'):
+                                         mvacc=self._angle_acc, wait=False, radius=20.0) 
+        if not self._check_code(code, 'set_servo_angle'): #motion_grap_capsule_final
             return
         
         self._tcp_speed = 100
@@ -233,28 +233,28 @@ class RobotMain(object):
     def motion_place_capsule(self):
         print("Starting place_capsule")
         code = self._arm.set_servo_angle(angle=[81.0, -10.8, 6.9, 103.6, 88.6, 9.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=40.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #ㅣ_to_R_회전_1
             return
         code = self._arm.set_servo_angle(angle=[10.0, -20.8, 7.1, 106.7, 79.9, 26.0], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=50.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #L_to_R_회전_2
             return
         code = self._arm.set_servo_angle(angle=[8.4, -42.7, 23.7, 177.4, 31.6, 3.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=40.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #L_to_R_회전_3
             return
         code = self._arm.set_servo_angle(angle=[8.4, -32.1, 55.1, 96.6, 29.5, 81.9], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #프레스기 앞 위치
             return
         code = self._arm.set_position(*[237.0, 135.8, 486.4, -143.8, 89.4, -57.3], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #프레스기 진입
             return
         code = self._arm.set_position(*[237.0, 135.8, 461.4, -143.8, 89.4, -57.3], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #프레스기 내 하강
             return
         code = self._arm.set_cgpio_analog(0, 5)
         if not self._check_code(code, 'set_cgpio_analog'):
             return
         code = self._arm.set_cgpio_analog(1, 5)
-        if not self._check_code(code, 'set_cgpio_analog'):
+        if not self._check_code(code, 'set_cgpio_analog'): #디스펜서 우로이동
             return
     
 
@@ -299,19 +299,19 @@ class RobotMain(object):
             #if not self._check_code(code, 'set_servo_angle'):
             #    return
             code = self._arm.set_servo_angle(angle=[-4, -0.6, 73.3, 88.5, 93.5, 75.1], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #프레스기에서 나오기
                 return
             code = self._arm.set_servo_angle(angle=[-24.9, -2.1, 60.4, 82.6, 106.2, 58.7], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #그리퍼회전 전
                 return
             code = self._arm.set_servo_angle(angle=[-6.1, -5.2, 53.5, -94.7, 87.6, 113.7], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #그리퍼회전 후
                 return
             code = self._arm.set_servo_angle(angle=[9.9, 43.8, 34.9, -80.3, 84.3, 187.9], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #컵으로 진입 전
                 return
             code = self._arm.set_position(*[179.1, -93.4, 146.2, -94.3, -87.5, -171.9], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #컵으로 진입
                 return
             time.sleep(1.5)
             code = self._arm.close_lite6_gripper()
@@ -319,13 +319,13 @@ class RobotMain(object):
                 return
             time.sleep(4.5)
             code = self._arm.set_position(*[179.1, -93.4, 336.0, -94.3, -87.5, -171.9], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #그랩 후 상승
                 return
             code = self._arm.set_servo_angle(angle=[-11.0, -13.8, 39.9, -27.2, 55.8, 93.4], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-            if not self._check_code(code, 'set_servo_angle'):
+            if not self._check_code(code, 'set_servo_angle'): #그리퍼 회전_1
                 return
             code = self._arm.set_position(*[2.7, 135.4, 367.1, 154.9, 89.4, -111.4], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #토핑3번 하단 위치
                 return
             time.sleep(1)
             code = self._arm.open_lite6_gripper()
@@ -342,21 +342,21 @@ class RobotMain(object):
         #time.sleep(1)
         #self.home_L()
         code = self._arm.set_position(*[2.8, 143.1, 373.1, 148.6, 89.4, -117.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #컵위치조정 후 토핑2번 밑 위치
             return
 
-        # 1번째 토핑 부분
+        # 토핑 부분
         if topping_num==0:
             code = self._arm.set_position(*[-258.7, 143.4, 373.1, 148.6, 89.4, -117.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #토핑 0번
                 return
         elif topping_num==1:
             code = self._arm.set_position(*[-136.6, 143.4, 373.1, 148.6, 89.4, -117.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #토핑 1번
                 return
         else:
             code = self._arm.set_position(*[2.8, 143.1, 373.1, 148.6, 89.4, -117.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
+            if not self._check_code(code, 'set_position'): #토핑 2번
                 return
         time.sleep(8)
 
@@ -364,14 +364,14 @@ class RobotMain(object):
     def motion_make_icecream(self):
     
         code = self._arm.set_cgpio_digital(3, 1, delay_sec=0)
-        if not self._check_code(code, 'set_cgpio_digital'):
+        if not self._check_code(code, 'set_cgpio_digital'): #프레스기 작동
             return
         code = self._arm.set_position(*[256.6, 143.4, 373.1, 148.6, 89.4, -117.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #아이스크림 캡슐 밑으로 이동
             return
         time.sleep(11)
 
-        code = self._arm.set_cgpio_digital(3, 0, delay_sec=0)
+        code = self._arm.set_cgpio_digital(3, 0, delay_sec=0) #프레스기 작동 중지
         if not self._check_code(code, 'set_cgpio_digital'):
             return
 
@@ -382,7 +382,7 @@ class RobotMain(object):
         self.icecream_place_position = position
         self.home_R_to_serving()
         code = self._arm.set_position(*[-162.3, -20.2, 237.4, -9.1, 86.9, -101.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #트레이 앞 위치
             return
         if self.icecream_place_position == 'A':
             code = self._arm.set_position(*[-302.0, -20.2, 237.4, -9.1, 86.9, -101.8], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
@@ -436,19 +436,19 @@ class RobotMain(object):
     def throw_away_trash(self):
         #self.home_L_to_R()
         code = self._arm.set_servo_angle(angle=[81.0, -10.8, 6.9, 103.6, 88.6, 9.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=40.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): 
             return
         code = self._arm.set_servo_angle(angle=[10.0, -20.8, 7.1, 106.7, 79.9, 26.0], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=50.0)
         if not self._check_code(code, 'set_servo_angle'):
             return
         code = self._arm.set_servo_angle(angle=[-6.1, 4, 29.8, 86.9, 93.5, 27.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=50.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): 
             return
         code = self._arm.set_servo_angle(angle=[-21.4, -2.0, 77.4, 88.9, 102.9, 74.5], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #프레스기 앞 위치
             return
         code = self._arm.set_position(*[237.0, 135.8, 461.4, -143.8, 89.4, -57.3], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-        if not self._check_code(code, 'set_position'):
+        if not self._check_code(code, 'set_position'): #프레스기 진입
             return
         time.sleep(4)
         code = self._arm.close_lite6_gripper()
@@ -456,10 +456,10 @@ class RobotMain(object):
             return
         time.sleep(4)
         code = self._arm.set_servo_angle(angle=[-21.4, -2.0, 77.4, 88.9, 102.9, 74.5], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #프레스기 탈출
             return
         code = self._arm.set_servo_angle(angle=[-6.1, 4.0, 29.8, 86.9, 93.5, 27.6], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #쓰레기통으로 이동
             return
         time.sleep(1)
         code = self._arm.open_lite6_gripper()
@@ -467,10 +467,10 @@ class RobotMain(object):
             return
         time.sleep(1)
         code = self._arm.set_servo_angle(angle=[17.6, 4.0, 27.9, 106.5, 79.3, 15.5], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #쓰레기통 위 위치
             return
         code = self._arm.set_servo_angle(angle=[17.6, 4.0, 27.9, 106.5, 79.3, -155.5], speed=self._angle_speed, mvacc=self._angle_acc, wait=False, radius=0.0)
-        if not self._check_code(code, 'set_servo_angle'):
+        if not self._check_code(code, 'set_servo_angle'): #그리퍼 회전
             return
         self.home_R()
 
