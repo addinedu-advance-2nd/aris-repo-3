@@ -53,16 +53,14 @@ class Popup_Topping(QDialog, form_topping_page):
 
         # DB에서 메뉴 이름에 해당하는 정보 가져오기
         cursor = self.conn.cursor(pymysql.cursors.DictCursor)
-        # TODO : 메뉴 이름을 바탕으로 가격과 메뉴 설명(추후 추가 예정)을 가져옴. 현재는 임시로 NAME사용
-        query_expr = f'select PRICE, NAME, IMG from ICECREAM where NAME="{self.menu_name}"'
+        query_expr = f'select PRICE, NAME, IMG, CONTENT from ICECREAM where NAME="{self.menu_name}"'
         cursor.execute(query_expr)
         result, = cursor.fetchall()
 
         # 가격, 설명 출력
         self.menu_price = result["PRICE"]
         self.label_price.setText(f'{result["PRICE"]} 원')
-        # TODO : 메뉴 이름을 바탕으로 가격과 메뉴 설명(추후 추가 예정)을 가져옴. 현재는 임시로 NAME사용
-        self.label_menu_comment.setText(result['NAME']+'설명설명설명')
+        self.label_menu_comment.setText(result['CONTENT'])
 
         # url을 통해 이미지 가져오고 출력
         image = urllib.request.urlopen(result['IMG']).read()
